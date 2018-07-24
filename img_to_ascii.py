@@ -34,7 +34,7 @@ def getAverageL(image):
     w,h = img.shape
     
     # flatten image and take average
-    return np.average(im.reshape(w * h))
+    return np.average(img.reshape(w * h))
 
 def generateASCII(image, rows, cols, tile_width, tile_height, height, width, level):
     aimg = []
@@ -67,6 +67,8 @@ def generateASCII(image, rows, cols, tile_width, tile_height, height, width, lev
                 gsval = gscale2[int((avg * 9) / 255)]
             
             aimg[j] += gsval
+    
+    return aimg
 
 def convert(fileName, cols, scale):
     # open image and get properties
@@ -79,5 +81,36 @@ def convert(fileName, cols, scale):
     # calculate average greyscale value
     average = getAverageL(image)
 
+    aimg = generateASCII(image, rows, cols, tile_width, tile_height, height, width, True)
+    
+    return aimg
 
+def writeASCII(outFile, aimg):
+    f = open(outFile, 'w')
+    
+    for row in aimg:
+        f.write(row + '\n')
+    
+    f.close()
+    
+def main():
+    cols = 110
+    scale = 0.43
+    imgFile = 'mambagi.png'
+    outFile = 'out.txt'
+    
+    aimg = convert(imgFile, cols, scale)
+    
+    writeASCII(outFile, aimg)
+    
+if __name__ == '__main__':
+    main()
+    
+    
+    
+    
+    
+    
+    
+    
     
